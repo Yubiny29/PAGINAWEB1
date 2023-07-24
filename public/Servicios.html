@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/public/css/style2.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <header>
+        <h2 class="logo">MEDIC YOU</h2>
+        <nav class="navigator">
+            <a href="/public/index.html">Inicio</a>
+            <a href="#">Medicos</a>
+            <a href="/public/Servicios.html">Servicios</a>
+            <a href="#">Sucursales</a>
+            <a href="#">Citas</a>
+            <button onclick="location.href='/public/index.html'" class="btnLogin-popup">Login</button>
+
+        </nav>
+
+    </header>  
+    <div class="wrapper">
+        <span class="icon-close"><ion-icon name="close"></ion-icon></ion-icon></span>
+        <div class="form-box login"> 
+            <h2>Login</h2>
+            <div id="result"></div>
+            <form method="post" id="login">
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail-sharp"></ion-icon>
+                    </span>
+                    <input id="username" type="text">
+                    <label for="username">Email</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed-sharp"></ion-icon></span>
+                    <input id="password" type="password">
+                    <label for="password">Password</label>
+                </div>
+                <div class="remember-forgot">
+                    <label><input type="checkbox">remember me
+                    </label>
+                    <a href="#"> Forgot password?</a>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <div class="login-register">
+                    <p>Don't have an account?<a href="#" class="register-link">Register</a></p>
+                </div>
+            </form>
+        </div>
+        <div class="form-box register"> 
+            <h2>Registro</h2>
+            <form method="post" id="login">
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person"></ion-icon>
+                    </span>
+                    <input id="username" type="text">
+                    <label for="username">username</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail-sharp"></ion-icon>
+                    </span>
+                    <input id="Email" type="text">
+                    <label for="Email">Email</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed-sharp"></ion-icon></span>
+                    <input id="password" type="password">
+                    <label for="password">Password</label>
+                </div>
+                <div class="remember-forgot">
+                    <label><input type="checkbox">I agree to the terms & conditions
+                    </label>
+                </div>
+                <button type="submit" class="btn">Registro</button>
+                <div class="login-register">
+                    <p>Already have an account?  <a href="#" class="login-link"> Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script src="/public/script.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        document.getElementById("login").addEventListener("submit", function(event) {
+			event.preventDefault();
+
+			const username = document.getElementById("username").value;
+			const password = document.getElementById("password").value;
+			const data = {
+				username: username,
+				password: password
+			};
+
+			fetch("http://localhost:8080/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(data)
+			})
+			.then(function(response) {
+				if (!response.ok) {
+					throw new Error(response.statusText);
+				}
+				return response.json();
+			})
+			.then(function(result) {
+				document.getElementById("result").innerText = result.message;
+			})
+			.catch(function(error) {
+				console.error("Error:", error);
+			});
+		});
+    </script>
+
+    <div class="columna-1 serv">
+        <h2>Consulta Externa</h2>
+        <p>El servicio de consulta externa ofrece atención a pacientes de todas las edades y con los mejores médicos del pais.</p>
+        <br>
+        <h2>Emergencia</h2>
+        <p>La sala de emergencia permanece a disposición del público las 24 hrs durante todo el año. Se cuenta con área de apoyo del Hospital para brindarle una atención confiable y un personal altamente calificado.</p>
+
+    </div>
+
+    <div>
+        <h2>Diagnóstico</h2>
+        <p>Nuestra unidad de diagnóstico cuenta con equipo moderno y personal calificado para realizar exámenes rutinarios y especiales.</p>
+        <br>
+        <h2>Farmacia</h2>
+        <p>Contamos con un área climatizada. Ofreciendo una amplia gama de productos y medicamentos garantizados para asegurar su salud y la de su familia.</p>
+    </div>
+    
+</body>
+</html>
