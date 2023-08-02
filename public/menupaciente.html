@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Menu</title>
+  
+  <!-- Font Awesome Cdn Link -->
+  <link rel="stylesheet" href="/public/css/style3.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+</head>
+<body >
+    
+    <div class="container">
+        <nav>
+          <div class="navbar">
+            <div class="logo1">
+              <h1>Medic you</h1>
+            </div>
+            <ul>
+              <li><a href="perfil.html">
+                <i class="fas fa-user"></i>
+                <span class="nav-item">Perfil</span>
+              </a>
+              </li>
+              <li><a href="#">
+                <i class="fas fa-tasks"></i>
+                <span class="nav-item">Citas</span>
+              </a>
+              </li>
+              <li><a href="#">
+                <i class="fas fa-chart-bar"></i>
+                <span class="nav-item">Historial</span>
+              </a>
+              </li>
+              <li><a href="#" class="logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="nav-item1">Logout</span>
+              </a>
+              </li>
+
+            </ul>
+          </div>
+        </nav>
+
+        <section class="main">
+          <div class="main-top1">
+            <p>Mis Citas</p>
+          </div>
+          
+          <table class="table" id="data-table">
+            <thead>
+              <tr>
+                <th>DESCRIPCION</th>
+                <th>ESPECIALIDAD</th>
+                <th>MEDICO</th>
+                <th>FECHA</th>
+                <th>HORA</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          
+          
+  
+        </section>
+        <script>
+          // Function to fetch table data from the backend API
+          function fetchTableData() {
+              fetch('http://localhost:8080/table')
+                  .then(response => response.json())
+                  .then(data => {
+                      // Populate the table with the data
+                      const tableBody = document.querySelector('#data-table tbody');
+                      data.forEach(item => {
+                          const row = tableBody.insertRow();
+                          row.insertCell().textContent = item.Descripcion;
+                          row.insertCell().textContent = item.Especialidad;
+                          row.insertCell().textContent = item.Medico;
+                          row.insertCell().textContent = item.Fecha;
+                          row.insertCell().textContent = item.Hora;
+
+                      });
+                  })
+                  .catch(error => console.error('Error fetching data:', error));
+          }
+  
+          // Call the function to fetch data and populate the table
+          fetchTableData();
+        </script>  
+</body>
+</html>

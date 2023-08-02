@@ -48,9 +48,9 @@ document.getElementById("login").addEventListener("submit", function(event) {
         if (result.user_type === "admin") {
             // Redirect to admin dashboard or perform actions for admin users
         } else if (result.user_type === "Paciente") {
-            window.location.href='/public/Paciente.html'
+            window.location.href='/public/menupaciente.html'
         } else if (result.user_type === "Doctor") {
-            window.location.href='/public/doctor.html'
+            window.location.href='/public/menudoctor.html'
         } else {
             // Handle unknown user types or show error message
         }

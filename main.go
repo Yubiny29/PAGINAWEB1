@@ -20,6 +20,14 @@ type User struct {
 	UserType string `json:"user_type"`
 }
 
+type Citas struct {
+	Descripcion  string `json:"Descripcion"`
+	Especialidad string `json:"Especialidad"`
+	Medico       string `json:"Medico"`
+	Fecha        string `json:"Fecha"`
+	Hora         string `json:"Hora"`
+}
+
 func DBconn() (db *sql.DB) {
 	dbDriver := "mysql"
 	dbUser := "root"
@@ -49,6 +57,7 @@ func main() {
 
 	r.HandleFunc("/login", loginHandler)
 	r.HandleFunc("/register", registerHandler)
+	r.HandleFunc("/table", VerCitas)
 	fmt.Println("server: http://localhost:8080")
 	http.ListenAndServe(":8080", r)
 }
@@ -144,13 +153,37 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonResponse)
 }
 
-func Insertar(w http.ResponseWriter, r *http.Request) {
-	conexion_establecida := DBconn()
-
-	insertaregistros, err := conexion_establecida.Prepare("INSERT INTO users(Full_name,Email,Username,Password) VALUES('Jaime Romero','Jaime@yahoo.com','jaime123','Jaime321')")
-
+func VerCitas(w http.ResponseWriter, r *http.Request) {
+	con2 := DBconn()
+	// Retrieve data from the database
+	rows, err := con2.Query("SELECT Descripcion,Especialidad,Medico,Fecha,Hora from citas_creadas")
 	if err != nil {
-		panic(err.Error())
+		http.Error(w, "Failed to retrieve data", http.StatusInternalServerError)
+		return
 	}
-	insertaregistros.Exec()
+	defer rows.Close()
+
+	// Create a slice to store the retrieved data
+	var items []Citas
+
+	// Loop through the query results and populate the slice
+	for rows.Next() {
+		var item Citas
+		if err := rows.Scan(&item.Descripcion, &item.Especialidad, &item.Medico, &item.Fecha, &item.Hora); err != nil {
+			http.Error(w, "Failed to scan data", http.StatusInternalServerError)
+			return
+		}
+		items = append(items, item)
+	}
+
+	// Convert data to JSON
+	jsonData, err := json.Marshal(items)
+	if err != nil {
+		http.Error(w, "Failed to marshal data", http.StatusInternalServerError)
+		return
+	}
+
+	// Set the appropriate content type and send the JSON data to the frontend
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonData)
 }
