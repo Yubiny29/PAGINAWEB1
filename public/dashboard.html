@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="/public/css/stylee.css">
+    <link rel="stylesheet" href="/public/css/style11.css">
+
+     
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <title>Admin Dashboard Panel</title>
+</head>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+               <img src="images/logo.png" alt="">
+            </div>
+
+            <span class="logo_name" style="color: aliceblue;">Medic You</span>
+        </div>
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="#">
+                    <i class="uil uil-user"></i>
+                    <span class="link-name">Perfil</span>
+                </a></li>
+                <li><a href="appointments.html">
+                    <i class="uil uil-file-medical-alt"></i>
+                    <span class="link-name">Appointments</span>
+                </a></li>
+                <li><a href="dashboard.html">
+                    <i class="uil uil-folder-medical"></i>
+                    <span class="link-name">History</span>
+                </a></li>
+                
+            </ul>
+            
+            <ul class="logout-mode">
+                <li><a href="index.html">
+                    <i class="uil uil-signout"></i>
+                    <span class="link-name">Logout</span>
+                </a></li>
+
+               
+
+                <div class="mode-toggle">
+                  
+                </div>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class="uil uil-bars sidebar-toggle"></i>
+
+           
+            
+            <!--<img src="images/profile.jpg" alt="">-->
+        </div>
+
+        <div class="dash-content">
+            <div class="overview">
+                <div class="Titulo2">
+                    <a style="font-size: 30px;">Mis Citas</a>
+                </div>
+                
+
+                <div class="boxes">
+                    <table class="table" id="data-table">
+                        <thead>
+                          <tr>
+                            <th>DESCRIPCION</th>
+                            <th>ESPECIALIDAD</th>
+                            <th>MEDICO</th>
+                            <th>FECHA</th>
+                            <th>HORA</th>
+                            <th>ESTADO</th>
+
+                          </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                     
+                </div>
+            </div>
+
+            <div class="activity">
+            </div>
+    </section>
+    <script>
+        // Function to fetch table data from the backend API
+        function fetchTableData() {
+            fetch('http://localhost:8080/table')
+                .then(response => response.json())
+                .then(data => {
+                    // Populate the table with the data
+                    const tableBody = document.querySelector('#data-table tbody');
+                    data.forEach(item => {
+                        const row = tableBody.insertRow();
+                        row.insertCell().textContent = item.Descripcion;
+                        row.insertCell().textContent = item.Especialidad;
+                        row.insertCell().textContent = item.Medico;
+                        row.insertCell().textContent = item.Fecha;
+                        row.insertCell().textContent = item.Hora;
+                        row.insertCell().textContent = item.Estado;
+
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        // Call the function to fetch data and populate the table
+        fetchTableData();
+        
+        const body = document.querySelector("body"),
+              sidebar = body.querySelector("nav");
+              sidebarToggle = body.querySelector(".sidebar-toggle");
+
+
+
+        sidebarToggle.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+            if(sidebar.classList.contains("close")){
+                localStorage.setItem("status", "close");
+            }else{
+                localStorage.setItem("status", "open");
+            }
+        })
+         
+      </script>  
+
+</body>
+</html>
+
+
+
+
+
+
+

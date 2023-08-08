@@ -1,98 +1,172 @@
 <!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WEB MEDICA</title>
-    <link href="/public/css/style1.css" rel="stylesheet" type="text/css">
+    
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="/public/css/stylee.css">
+    <link rel="stylesheet" href="/public/css/style11.css">
 
+     
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <title>Admin Dashboard Panel</title>
 </head>
 <body>
-    <header>
-        <h2 class="logo">MEDIC YOU</h2>
-        <nav class="navigator">
-            <a href="/public/index.html">Inicio</a>
-            <a href="#">Medicos</a>
-            <a href="/public/Servicios.html">Servicios</a>
-            <a href="#">Sucursales</a>
-            <a href="#">Citas</a>
-            <button class="btnLogin-popup">Login</button>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+               <img src="images/logo.png" alt="">
+            </div>
 
-        </nav>
+            <span class="logo_name" style="color: aliceblue;">Medic You</span>
+        </div>
 
-    </header>
-    
-    <div class="wrapper">
-        <span class="icon-close"><ion-icon name="close"></ion-icon></ion-icon></span>
-        <div class="form-box login"> 
-            <h2>Login</h2>
-            <div id="result"></div>
-            <form method="post" id="login">
-                <div class="input-box">
-                    <span class="icon"><ion-icon name="mail-sharp"></ion-icon>
-                    </span>
-                    <input id="username" type="text">
-                    <label for="username">Email</label>
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="#">
+                    <i class="uil uil-estate"></i>
+                    <span class="link-name">Home</span>
+                </a></li>
+                <li><a href="#">
+                    <i class="uil uil-heart-medical"></i>
+                    <span class="link-name">Doctors</span>
+                </a></li>
+                <li><a href="#">
+                    <i class="uil uil-medkit"></i>
+                    <span class="link-name">Services</span>
+                </a></li>
+                <li><a href="#">
+                    <i class="uil uil-file-medical-alt"></i>
+                    <span class="link-name">appointments</span>
+                </a></li>
+                
+            </ul>
+            
+           <!----<ul class="logout-mode">
+                <li><a href="#">
+                    <i class="uil uil-signout"></i>
+                    <span class="link-name">Logout</span>
+                </a></li> -->
+
+               
+
+                <div class="mode-toggle">
+                  
                 </div>
-                <div class="input-box">
-                    <span class="icon"><ion-icon name="lock-closed-sharp"></ion-icon></span>
-                    <input id="password" type="password">
-                    <label for="password">Password</label>
-                </div>
-                <div class="remember-forgot">
-                    <label><input type="checkbox">remember me
-                    </label>
-                    <a href="#"> Forgot password?</a>
-                </div>
-                <button type="submit" class="btn">Login</button>
-                <div class="login-register">
-                    <p>Don't have an account?<a href="#" class="register-link">Register</a></p>
-                </div>
-            </form>
+            </li>
+            </ul>
         </div>
-        <div class="form-box register"> 
-            <h2>Registro</h2>
-            <form method="post" id="register">
-                <div class="input-box">
-                    <span class="icon"><ion-icon name="person"></ion-icon>
-                    </span>
-                    <input id="Full-Name" type="text">
-                    <label for="Full-Name">Full Name</label>
-                </div>
-                <div class="input-box">
-                    <span class="icon"><ion-icon name="mail-sharp"></ion-icon>
-                    </span>
-                    <input id="Email" type="text">
-                    <label for="Email">Email</label>
-                </div>
-                <div class="input-box">
-                    <span class="icon"><ion-icon name="person"></ion-icon>
-                    </span>
-                    <input id="user" type="text">
-                    <label for="user">username</label>
-                </div>
-                <div class="input-box">
-                    <span class="icon"><ion-icon name="lock-closed-sharp"></ion-icon></span>
-                    <input id="pass" type="password">
-                    <label for="pass">Password</label>
-                </div>
-                <div class="remember-forgot">
-                    <label for="user-type">User Type:</label>
-                    <select id="user-type" name="user_type">
-                        <option value="Paciente">Paciente</option>
-                        <option value="Doctor">Doctor</option>
-                    </select><br>
-                </div>
-                <button type="submit" class="btn">Registro</button>
-                <div class="login-register">
-                    <p>Already have an account?  <a href="#" class="login-link"> Login</a></p>
-                </div>
-            </form>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class="uil uil-bars sidebar-toggle"></i>
+
+           
+            
+            <!--<img src="images/profile.jpg" alt="">-->
         </div>
-    </div>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script src="/public/script.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    
+
+        <div class="dash-content">
+            <div class="overview">
+                
+
+                <div class="boxes">
+                    <div class="container1">
+                        <div class="forms">
+                            <div class="form login">
+                                <span class="title">Login</span>
+                
+                                <form method="post" id="login">
+                                    <div class="input-field">
+                                        <input id="username" type="text" placeholder="Enter your email">
+                                        <i class="uil uil-envelope icon"></i>
+                                    </div>
+                                    <div class="input-field">
+                                        <input id="password" type="password" class="password" placeholder="Enter your password">
+                                        <i class="uil uil-lock icon"></i>
+                                        <i class="uil uil-eye-slash showHidePw"></i>
+                                    </div>
+                
+                                    <div class="checkbox-text">
+                                        <div class="checkbox-content">
+                                            <input type="checkbox" id="logCheck">
+                                            <label for="logCheck" class="text">Remember me</label>
+                                        </div>
+                                        
+                                        <a href="#" class="text">Forgot password?</a>
+                                    </div>
+                
+                                    <div class="input-field button">
+                                        <input type="submit" value="Login">
+                                    </div>
+                                </form>
+                
+                                <div class="login-signup">
+                                    <span class="text">Not a member?
+                                        <a href="#" class="text signup-link">Signup Now</a>
+                                    </span>
+                                </div>
+                            </div>
+                
+                            <!-- Registration Form -->
+                            <div class="form signup">
+                                <span class="title">Registration</span>
+                
+                                <form action="#">
+                                    <div class="input-field">
+                                        <input type="text" placeholder="Enter your name" required>
+                                        <i class="uil uil-user"></i>
+                                    </div>
+                                    <div class="input-field">
+                                        <input type="text" placeholder="Enter your email" required>
+                                        <i class="uil uil-envelope icon"></i>
+                                    </div>
+                                    <div class="input-field">
+                                        <input type="password" class="password" placeholder="Create a password" required>
+                                        <i class="uil uil-lock icon"></i>
+                                    </div>
+                                    <div class="input-field">
+                                        <input type="password" class="password" placeholder="Confirm a password" required>
+                                        <i class="uil uil-lock icon"></i>
+                                        <i class="uil uil-eye-slash showHidePw"></i>
+                                    </div>
+                
+                                    <div class="checkbox-text">
+                                        <div class="checkbox-content">
+                                            <input type="checkbox" id="termCon">
+                                            <label for="termCon" class="text">I accepted all terms and conditions</label>
+                                        </div>
+                                    </div>
+                
+                                    <div class="input-field button">
+                                        <input type="button" value="Signup">
+                                    </div>
+                                </form>
+                
+                                <div class="login-signup">
+                                    <span class="text">Already a member?
+                                        <a href="#" class="text login-link">Login Now</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <script src="/public/script1.js"></script>
+                     
+                </div>
+            </div>
+
+            <div class="activity">
+            </div>
+    </section>
+
+
 </body>
 </html>

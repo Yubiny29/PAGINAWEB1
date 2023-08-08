@@ -1,0 +1,311 @@
+/* ===== Google Font Import - Poformsins ===== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}
+.container2{
+    margin: -100px;
+    position: relative;
+    width: 1000px;
+    height: 650px;
+    background: hsl(0, 0%, 90%);
+    left: 50px;
+    padding: 80px;
+    
+}
+.container2 form .reserva-details{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.container2 .Titulo1 a{
+    font-size: 30px;
+}
+form .reserva-details .input-box{
+    margin: 20px 0 12px 0;
+    width: calc(100% / 2-20px);
+}
+form .reserva-details .input-description{
+    margin: 20px 0 12px 0;
+    width: calc(100% / 2-10px);
+}
+
+
+.reserva-details .input-description input{
+    position: relative;
+    height: 50px;
+    width: 815px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    font-size: 14px;
+    border-bottom-width: 2px;
+    
+}
+.reserva-details .input-box select{
+    position: relative;
+    height: 35px;
+    width: 360px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    font-size: 14px;
+    border-bottom-width: 2px;
+    top:30px;
+    right: 110px;
+}
+.reserva-details .input-box2 select{
+    position: relative;
+    height: 35px;
+    width: 360px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    font-size: 14px;
+    border-bottom-width: 2px;
+    top: -17px;
+    left: 390px;
+}
+.reserva-details .input-box2 label{
+    position: relative;
+    top: -45px;
+    left: 460px;
+
+}
+.reserva-details .input-box3 input{
+    position: relative;
+    height: 30px;
+    width: 240px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    font-size: 14px;
+    border-bottom-width: 2px;
+    top:85px;
+    right: 600px;
+}
+.reserva-details .input-box3 label{
+    position: relative;
+    right: 543px;
+    top: 50px;
+
+}
+.reserva-details .input-box input{
+    height: 30px;
+    width: 90%;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    font-size: 14px;
+    border-bottom-width: 2px;
+}
+
+.reserva-details .input-hora select{
+    position: relative;
+    height: 30px;
+    width: 200px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    font-size: 14px;
+    border-bottom-width: 2px;
+    top: 48px;
+    left: 570px;
+    
+}
+.reserva-details .input-hora label{
+    position: relative;
+    left: 620px;
+    top: 15px;
+
+}
+form .button12 input{
+    position: relative;
+    height: 60px;
+    width: 140px;
+    margin: 200px 0;
+    left: 300px;
+    color: #265df2;
+}
+
+.container1{
+    position: relative;
+    max-width: 430px;
+    width: 100%;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin: 0 20px;
+    left: 300px;
+}
+
+.container1 .forms{
+    display: flex;
+    align-items: center;
+    height: 500px;
+    width: 200%;
+    transition: height 0.2s ease;
+}
+
+
+.container1 .form{
+    width: 50%;
+    padding: 20px;
+    background-color: #fff;
+    transition: margin-left 0.18s ease;
+}
+
+.container1.active .login{
+    margin-left: -50%;
+    opacity: 0;
+    transition: margin-left 0.18s ease, opacity 0.15s ease;
+}
+
+.container1 .signup{
+    opacity: 0;
+    transition: opacity 0.09s ease;
+}
+.container1.active .signup{
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.container1.active .forms{
+    height: 600px;
+}
+.container1 .form .title{
+    position: relative;
+    font-size: 27px;
+    font-weight: 600;
+}
+
+.form .title::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background-color: #4070f4;
+    border-radius: 25px;
+}
+
+.form .input-field{
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.input-field input{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 0 35px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    border-bottom: 2px solid #ccc;
+    border-top: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.input-field input:is(:focus, :valid){
+    border-bottom-color: #4070f4;
+}
+
+.input-field i{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 23px;
+    transition: all 0.2s ease;
+}
+
+.input-field input:is(:focus, :valid) ~ i{
+    color: #4070f4;
+}
+
+.input-field i.icon{
+    left: 0;
+}
+.input-field i.showHidePw{
+    right: 0;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.form .checkbox-text{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.checkbox-text .checkbox-content{
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-content input{
+    margin-right: 10px;
+    accent-color: #4070f4;
+}
+
+.form .text{
+    color: #333;
+    font-size: 14px;
+}
+
+.form a.text{
+    color: #4070f4;
+    text-decoration: none;
+}
+.form a:hover{
+    text-decoration: underline;
+}
+
+.form .button{
+    margin-top: 35px;
+}
+
+.form .button input{
+    border: none;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border-radius: 6px;
+    background-color: #4070f4;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button input:hover{
+    background-color: #265df2;
+}
+
+.form .login-signup{
+    margin-top: 30px;
+    text-align: center;
+}

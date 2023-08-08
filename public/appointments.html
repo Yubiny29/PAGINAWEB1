@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="/public/css/stylee.css">
+    <link rel="stylesheet" href="/public/css/style11.css">
+
+     
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <title>Menu Paciente</title>
+</head>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+               <img src="images/logo.png" alt="">
+            </div>
+
+            <span class="logo_name" style="color: aliceblue;">Medic You</span>
+        </div>
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="#">
+                    <i class="uil uil-user"></i>
+                    <span class="link-name">Perfil</span>
+                </a></li>
+                <li><a href="#">
+                    <i class="uil uil-file-medical-alt"></i>
+                    <span class="link-name">Appointments</span>
+                </a></li>
+                <li><a href="dashboard.html">
+                    <i class="uil uil-folder-medical"></i>
+                    <span class="link-name">History</span> 
+                </a></li>
+                
+            </ul>
+            
+            <ul class="logout-mode">
+                <li><a href="index.html">
+                    <i class="uil uil-signout"></i>
+                    <span class="link-name">Logout</span>
+                </a></li>
+
+               
+
+                <div class="mode-toggle">
+                  
+                </div>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class="uil uil-bars sidebar-toggle"></i>
+ 
+            <!--<img src="images/profile.jpg" alt="">-->
+        </div>
+        <div class="dash-content">
+            <div class="overview">
+                <div class="boxes">
+                    <div class="container2">
+                        
+                        <form method="post" id="Reserva">
+                            <div class="reserva-details">
+                                <div class="Titulo1">
+                                    <a>Reservar Cita </a>
+                                </div>
+                                <div class="input-description">
+                                    <label for="Descrip">Descripcion:</label>
+                                    <input id="Descrip" type="text">
+                                    
+                                </div>
+                                <div class="input-box">
+                                    <label for="especialidades">Especialidad:</label>
+                                    <select id="especialidades" name="especialidades"></select>
+                                    
+                                </div>
+                                <div class="input-box2">
+                                    <label for="user">Medico:</label>
+                                    <select id="listMedicos" name="listMedicos" disabled></select>
+
+                                </div>
+                                <div class="input-box3">
+                                    <label for="pass">Fecha:</label>
+                                    <input id="fecha1" name="fecha1" type="date" disabled>
+                                    
+                                </div>
+                                <div class="input-hora">
+                                    <label for="user-type">Hora:</label>
+                                    <select id="hora" name="hora" disabled>
+                                        
+                                        
+                                    </select><br>
+                                </div>
+                            </div>
+                            <div class="button12">
+                                <input type="submit" value="Reservar">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+    <script>
+        const body = document.querySelector("body"),
+              sidebar = body.querySelector("nav");
+              sidebarToggle = body.querySelector(".sidebar-toggle");
+
+
+
+        sidebarToggle.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+            if(sidebar.classList.contains("close")){
+                localStorage.setItem("status", "close");
+            }else{
+                localStorage.setItem("status", "open");
+            }
+        })
+
+        /*document.addEventListener("DOMContentLoaded", function () {
+            const especialidadesSelect = document.getElementById("especialidades");
+
+            // Fetch the medical specialties from the backend
+            fetch('http://localhost:8080/list-options')
+                .then(response => response.json())
+                .then(data => {
+                    // Create and add options to the select element
+                    data.forEach(especialidad => {
+                        const optionElement = document.createElement("option");
+                        optionElement.value = especialidad.ID;
+                        optionElement.textContent = especialidad.Nombre;
+                        especialidadesSelect.appendChild(optionElement);
+                    });
+                })
+                .catch(error => console.error("Error fetching medical specialties:", error));
+        });*/
+         
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const option1Select = document.getElementById("especialidades");
+            const option2Select = document.getElementById("listMedicos");
+            const option3Select = document.getElementById("hora");
+            const fechaInput = document.getElementById('fecha1');
+
+
+            fetch('http://localhost:8080/list-options')
+            .then(response => response.json())
+            .then(data => {
+                    // Create and add options to the select element
+                data.forEach(especialidad => {
+                    const optionElement = document.createElement("option");
+                    optionElement.value = especialidad.ID;
+                    optionElement.textContent = especialidad.Nombre;
+                    option1Select.appendChild(optionElement);
+                });
+             })
+            .catch(error => console.error("Error fetching medical specialties:", error));
+
+            
+            option1Select.addEventListener("change", function () {
+                const selectedOption = option1Select.value;
+                fetch('http://localhost:8080/get-data', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ option: selectedOption }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Limpiar y habilitar el segundo select
+                    console.log(option2Select.value)
+                    const fecha1 = fechaInput.value
+                    console.log(fechaInput.value)
+                    option2Select.disabled = false
+                    
+                    // Agregar opciones al segundo select basadas en los datos recibidos
+                    data.forEach(option => {
+                        const optionElement = document.createElement("option");
+                        optionElement.value = option.ID;
+                        optionElement.textContent = option.Nombre;
+                        option2Select.appendChild(optionElement);
+                    });
+                })
+                .catch(error => console.error("Error fetching data:", error));
+               
+                
+            });
+
+            option2Select.addEventListener("change", function () {
+                fechaInput.disabled = false
+
+            });
+
+            fechaInput.addEventListener("change",function (){
+                opc2 = option2Select.value
+                fecha1 = fechaInput.value
+                console.log(JSON.stringify({ id:opc2, fecha:fecha1}))
+                if (fecha1 !== ""){
+                    fetch('http://localhost:8080/horario', {
+
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ id:opc2, fecha:fecha1}),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            option3Select.disabled = false
+                        // Agregar opciones al segundo select basadas en los datos recibidos
+                            data.forEach(option1 => {
+                                const optionElement = document.createElement("option");
+                                optionElement.textContent = option1.hora_inicio;
+                                option3Select.appendChild(optionElement);
+                            });
+                        })
+                        .catch(error => console.error("Error fetching data:", error));
+                }
+
+            });
+            
+        });
+        
+        document.getElementById("Reserva").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const Descrip2 = document.getElementById("Descrip").value;
+            const Esp = document.getElementById("especialidades").value;
+            const List_M = document.getElementById("listMedicos").value;
+            const fechas = document.getElementById("fecha1").value;
+            const Horaa = document.getElementById("hora").value;
+            const nombreUsuario = localStorage.getItem('nombreUsuario');
+
+            const data = {
+                Paciente: nombreUsuario,
+                Descripcion: Descrip2 ,
+                Especialidad: Esp,
+                Medico: List_M,
+                Fecha: fechas,
+                Hora: Horaa
+            };
+            console.log(JSON.stringify(data))
+
+            fetch("http://localhost:8080/Reservar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data),
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+                return response.json();
+            })
+            .then(function(result) {
+                console.log(result.status)
+                
+            })
+            .catch(function(error) {
+                console.error("Error:", error);
+            });
+        });
+
+
+
+
+        
+
+
+
+    </script>
+
+
+</body>
+</html>
