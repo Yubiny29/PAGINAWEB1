@@ -14,8 +14,10 @@ import (
 type User struct {
 	ID       int    `json:"id"`
 	Fullname string `json:"fullname"`
+	DNI      string `json:"dni"`
 	Email    string `json:"email"`
 	Username string `json:"username"`
+	Tel      string `json:"telefono"`
 	Password string `json:"password"`
 	UserType string `json:"user_type"`
 }
@@ -33,6 +35,7 @@ type horarioo struct {
 }
 
 type Citas struct {
+	Id           string `json:"Id"`
 	Descripcion  string `json:"Descripcion"`
 	Especialidad string `json:"Especialidad"`
 	Medico       string `json:"Medico"`
@@ -89,6 +92,9 @@ func main() {
 	r.HandleFunc("/get-data", getdata)
 	r.HandleFunc("/horario", horario)
 	r.HandleFunc("/Reservar", ReservarHandler)
+	r.HandleFunc("/usuario", VerUsuario)
+	r.HandleFunc("/Eliminar", EliminarHandler)
+	r.HandleFunc("/Actualizar", ActualizarHandler)
 	fmt.Println("server: http://localhost:8080")
 	http.ListenAndServe(":8080", r)
 }
@@ -163,8 +169,8 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Insert the new user into the database
-	query = "INSERT INTO users(full_name,email,username,user_type,password) VALUES (?,?,?,?,?)"
-	_, err = conexion2.Exec(query, user2.Fullname, user2.Email, user2.Username, user2.UserType, user2.Password)
+	query = "INSERT INTO users(full_name,DNI,email,username,telefono,user_type,password) VALUES (?,?,?,?,?,?,?)"
+	_, err = conexion2.Exec(query, user2.Fullname, user2.DNI, user2.Email, user2.Username, user2.Tel, user2.UserType, user2.Password)
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
@@ -187,12 +193,27 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 func VerCitas(w http.ResponseWriter, r *http.Request) {
 	con2 := DBconn()
 	// Retrieve data from the database
+	var data map[string]string
+	err := json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+	usuario := data["paciente"]
 
-	rows, err := con2.Query("SELECT Descripcion, Especialidad,Nombre,Fecha,Hora,Estado from citas_creadas INNER JOIN medicos ON citas_creadas.id_medico = medicos.id")
+	query := "SELECT id FROM users WHERE username = ?"
+	row1 := con2.QueryRow(query, usuario)
+
+	var existingID int
+	err = row1.Scan(&existingID)
+
+	quer := "SELECT citas_creadas.Id,Descripcion, Especialidad,Nombre,Fecha,Hora,Estado from citas_creadas INNER JOIN medicos ON citas_creadas.id_medico = medicos.id where id_paciente = ?"
+	rows, err := con2.Query(quer, existingID)
 	if err != nil {
 		http.Error(w, "Failed to retrieve data", http.StatusInternalServerError)
 		return
 	}
+
 	defer rows.Close()
 
 	// Create a slice to store the retrieved data
@@ -201,7 +222,7 @@ func VerCitas(w http.ResponseWriter, r *http.Request) {
 	// Loop through the query results and populate the slice
 	for rows.Next() {
 		var item Citas
-		if err := rows.Scan(&item.Descripcion, &item.Especialidad, &item.Medico, &item.Fecha, &item.Hora, &item.Estado); err != nil {
+		if err := rows.Scan(&item.Id, &item.Descripcion, &item.Especialidad, &item.Medico, &item.Fecha, &item.Hora, &item.Estado); err != nil {
 			http.Error(w, "Failed to scan data", http.StatusInternalServerError)
 			return
 		}
@@ -290,7 +311,6 @@ func horario(w http.ResponseWriter, r *http.Request) {
 	}
 	id_med := datos["id"]
 	fecha_cita := datos["fecha"]
-	// Check if the username is already taken
 	query1 := "SELECT hora_inicio,hora_salida FROM horario WHERE not Id IN(select id_horario from dia where Dia = ?) AND id_medico = ?;"
 	rows1, err := conexion5.Query(query1, fecha_cita, id_med)
 
@@ -388,6 +408,131 @@ func ReservarHandler(w http.ResponseWriter, r *http.Request) {
 	// Registration successful
 	response := map[string]interface{}{
 		"status": "cita reservada",
+	}
+	jsonResponse, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonResponse)
+}
+
+func VerUsuario(w http.ResponseWriter, r *http.Request) {
+	con2 := DBconn()
+	var data map[string]string
+	err := json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+	usuario := data["paciente"]
+	fmt.Println(usuario)
+
+	query := "SELECT * FROM users WHERE username = ?"
+	row1 := con2.QueryRow(query, usuario)
+
+	var user User
+	err = row1.Scan(&user.ID, &user.Fullname, &user.DNI, &user.Email, &user.Username, &user.Tel, &user.UserType, &user.Password)
+	if err != nil {
+		http.Error(w, "Failed to retrieve data", http.StatusInternalServerError)
+		return
+	}
+
+	jsonData, err := json.Marshal(user)
+	if err != nil {
+		http.Error(w, "Failed to marshal data", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonData)
+}
+
+func EliminarHandler(w http.ResponseWriter, r *http.Request) {
+	conexi := DBconn()
+	var cit map[string]string
+	err := json.NewDecoder(r.Body).Decode(&cit)
+	if err != nil {
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+
+	Id_C := cit["Id"]
+	fec := cit["Fecha"]
+	H := cit["Hora"]
+
+	fmt.Println(Id_C, fec, H)
+
+	q1 := "SELECT id_medico FROM `citas_creadas` WHERE Id =? "
+	roww2 := conexi.QueryRow(q1, Id_C)
+	var id_medico int
+	err = roww2.Scan(&id_medico)
+
+	query2 := "SELECT id FROM horario WHERE hora_inicio = ? AND id_medico = ? "
+	roww := conexi.QueryRow(query2, H, id_medico)
+	var id_hora int
+	err = roww.Scan(&id_hora)
+	fmt.Println(id_hora)
+
+	quer := "DELETE from dia  WHERE dia = ? and id_horario = ?"
+	_, err = conexi.Exec(quer, fec, id_hora)
+	fmt.Println(err)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	quer3 := "delete from citas_creadas where Id = ?"
+	_, err = conexi.Exec(quer3, Id_C)
+	fmt.Println(err)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	response := map[string]interface{}{
+		"status": "cita eliminada",
+	}
+	jsonResponse, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonResponse)
+}
+
+func ActualizarHandler(w http.ResponseWriter, r *http.Request) {
+	conexi := DBconn()
+	var cit map[string]string
+	err := json.NewDecoder(r.Body).Decode(&cit)
+	if err != nil {
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+	nombre := cit["fullname"]
+	correo := cit["email"]
+	dni := cit["dni"]
+	users := cit["username"]
+	pass := cit["password"]
+	telef := cit["telefono"]
+	u := cit["user"]
+
+	fmt.Println(nombre, correo, dni, users, pass, telef, u)
+
+	quer := "UPDATE users SET  full_name = ?, email = ?, username = ?, DNI = ?, telefono = ?, password = ?  where username = ?"
+	_, err = conexi.Exec(quer, nombre, correo, users, dni, telef, pass, u)
+	fmt.Println(err)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	// Registration successful
+	response := map[string]interface{}{
+		"status": "Perfil rditado",
 	}
 	jsonResponse, err := json.Marshal(response)
 	if err != nil {
