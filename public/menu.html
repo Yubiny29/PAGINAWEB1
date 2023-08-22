@@ -1,130 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Job Dashboard | By Code Info</title>
-  <link rel="stylesheet" href="/public/css/style33.css">
-  <link rel="stylesheet" href="/public/css/style11.css">
-  <!-- Font Awesome Cdn Link -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-</head>
-<body >
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <div class="container">
-        <nav>
-          <div class="navbar">
-            <div class="logo">
-              <img src="/pic/logo.jpg" alt="">
-              <h1>Medic you</h1>
-            </div>
-            <ul>
-              <li><a href="#">
-                <i class="fas fa-user"></i>
-                <span class="nav-item">Perfil</span>
-              </a>
-              </li>
-              <li><a href="#">
-                <i class="fas fa-chart-bar"></i>
-                <span class="nav-item">Pacientes</span>
-              </a>
-              </li>
-              <li><a href="#">
-                <i class="fas fa-tasks"></i>
-                <span class="nav-item">Citas</span>
-              </a>
-              </li>
-            
-              <li><a href="index.html" class="logout">
-                <i class="fas fa-sign-out-alt"></i>
-                <span class="nav-item">Logout</span>
-              </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="/public/css/stylee.css">
+    <link rel="stylesheet" href="/public/css/style11.css">
 
-        <div class="container1">
-            <div class="forms">
-                <div class="form login">
-                    <span class="title">Login</span>
-    
-                    <form action="#">
-                        <div class="input-field">
-                            <input type="text" placeholder="Enter your email" required>
-                            <i class="uil uil-envelope icon"></i>
-                        </div>
-                        <div class="input-field">
-                            <input type="password" class="password" placeholder="Enter your password" required>
-                            <i class="uil uil-lock icon"></i>
-                            <i class="uil uil-eye-slash showHidePw"></i>
-                        </div>
-    
-                        <div class="checkbox-text">
-                            <div class="checkbox-content">
-                                <input type="checkbox" id="logCheck">
-                                <label for="logCheck" class="text">Remember me</label>
-                            </div>
-                            
-                            <a href="#" class="text">Forgot password?</a>
-                        </div>
-    
-                        <div class="input-field button">
-                            <input type="button" value="Login">
-                        </div>
-                    </form>
-    
-                    <div class="login-signup">
-                        <span class="text">Not a member?
-                            <a href="#" class="text signup-link">Signup Now</a>
-                        </span>
-                    </div>
+     
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <title>Doctor</title>
+</head>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+            </div>
+
+            <span class="logo_name" style="color: aliceblue;">Medic You</span>
+        </div>
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="perfil_medico.html">
+                    <i class="uil uil-user"></i>
+                    <span class="link-name">Perfil</span>
+                </a></li>
+                <li><a href="my_appointments.html">
+                    <i class="uil uil-file-medical-alt"></i>
+                    <span class="link-name">My Appointments</span>
+                </a></li>
+                <li><a href="mypatients.html">
+                    <i class="uil uil-users-alt"></i>
+                    <span class="link-name">My patients</span>
+                </a></li>
+                
+            </ul>
+            
+            <ul class="logout-mode">
+                <li><a href="index.html">
+                    <i class="uil uil-signout"></i>
+                    <span class="link-name">Logout</span>
+                </a></li>
+
+               
+
+                <div class="mode-toggle">
+                  
                 </div>
-    
-                <!-- Registration Form -->
-                <div class="form signup">
-                    <span class="title">Registration</span>
-    
-                    <form action="#">
-                        <div class="input-field">
-                            <input type="text" placeholder="Enter your name" required>
-                            <i class="uil uil-user"></i>
-                        </div>
-                        <div class="input-field">
-                            <input type="text" placeholder="Enter your email" required>
-                            <i class="uil uil-envelope icon"></i>
-                        </div>
-                        <div class="input-field">
-                            <input type="password" class="password" placeholder="Create a password" required>
-                            <i class="uil uil-lock icon"></i>
-                        </div>
-                        <div class="input-field">
-                            <input type="password" class="password" placeholder="Confirm a password" required>
-                            <i class="uil uil-lock icon"></i>
-                            <i class="uil uil-eye-slash showHidePw"></i>
-                        </div>
-    
-                        <div class="checkbox-text">
-                            <div class="checkbox-content">
-                                <input type="checkbox" id="termCon">
-                                <label for="termCon" class="text">I accepted all terms and conditions</label>
-                            </div>
-                        </div>
-    
-                        <div class="input-field button">
-                            <input type="button" value="Signup">
-                        </div>
-                    </form>
-    
-                    <div class="login-signup">
-                        <span class="text">Already a member?
-                            <a href="#" class="text login-link">Login Now</a>
-                        </span>
-                    </div>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class="uil uil-bars sidebar-toggle"></i>
+
+           
+            
+            <!--<img src="images/profile.jpg" alt="">-->
+        </div>
+
+        <div class="dash-content">
+            <div class="overview">
+                <div class="Titulo2">
+                    <a style="font-size: 30px;">Mis Citas</a>
+                </div>
+                <div class="boxes">
+                    <table class="table" id="data-table">
+                        <thead>
+                          <tr>
+                            <th>Id</th>
+                            <th>DESCRIPCION</th>
+                            <th>FECHA</th>
+                            <th>HORA</th>
+                            <th>ESTADO</th>
+                            <th>ELIMINAR</th>
+
+                          </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                     
                 </div>
             </div>
-        </div>
-    
-         <script src="/public/script1.js"></script> 
-    
-    
-</body>
-</html>
+
+            <div class="activity">
+            </div>
+    </section>

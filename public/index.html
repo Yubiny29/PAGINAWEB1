@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- Coding By CodingNepal - codingnepalweb.com -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +13,7 @@
     <!----===== Iconscout CSS ===== -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
-    <title>Admin Dashboard Panel</title>
+    <title>Panel Central</title>
 </head>
 <body>
     <nav>
@@ -118,24 +117,33 @@
                             <div class="form signup">
                                 <span class="title">Registration</span>
                 
-                                <form action="#">
+                                <form id="register" method="post">
                                     <div class="input-field">
-                                        <input type="text" placeholder="Enter your name" required>
+                                        <input id="Full-Name" type="text" placeholder="Enter your name" required>
                                         <i class="uil uil-user"></i>
                                     </div>
                                     <div class="input-field">
-                                        <input type="text" placeholder="Enter your email" required>
+                                        <input id="Email" type="text" placeholder="Enter your email" required>
                                         <i class="uil uil-envelope icon"></i>
                                     </div>
                                     <div class="input-field">
-                                        <input type="password" class="password" placeholder="Create a password" required>
-                                        <i class="uil uil-lock icon"></i>
+                                        <input id="DNI" type="text" placeholder="Enter your DNI" required>
+                                        <i class="uil uil-postcard"></i>
                                     </div>
                                     <div class="input-field">
-                                        <input type="password" class="password" placeholder="Confirm a password" required>
+                                        <input id="user"type="text" placeholder="Enter your username" required>
+                                        <i class="uil uil-user"></i>
+                                    </div>
+                                    <div class="input-field">
+                                        <input id="Cel"type="text" placeholder="Enter your Phonenumber" required>
+                                        <i class="uil uil-phone-alt"></i>
+                                    </div>
+                                    <div class="input-field">
+                                        <input id="pass" type="password" class="password" placeholder="Create a password" required>
                                         <i class="uil uil-lock icon"></i>
                                         <i class="uil uil-eye-slash showHidePw"></i>
                                     </div>
+                                    
                 
                                     <div class="checkbox-text">
                                         <div class="checkbox-content">
@@ -145,7 +153,7 @@
                                     </div>
                 
                                     <div class="input-field button">
-                                        <input type="button" value="Signup">
+                                        <input type="submit" value="Signup">
                                     </div>
                                 </form>
                 
@@ -157,8 +165,68 @@
                             </div>
                         </div>
                     </div>
-                
+                    <script>
+                        history.pushState(null, null, location.href);
+                        window.onpopstate = function(event) {
+                            history.pushState(null, null, location.href);
+                        };
+                                                document.getElementById("register").addEventListener("submit", function(en) {
+                            en.preventDefault();
+
+                            const fullname = document.getElementById("Full-Name").value;
+                            const email = document.getElementById("Email").value;
+                            const username1 = document.getElementById("user").value;
+                            const password1 = document.getElementById("pass").value;
+                            const DNI = document.getElementById("DNI").value;
+                            const Tel = document.getElementById("Cel").value;
+                            const userType = 'Paciente'
+                            console.log(Tel)
+
+                            const data = {
+                                fullname : fullname,
+                                dni: DNI,
+                                email: email,
+                                username: username1,
+                                telefono: Tel,
+                                password: password1,
+                                user_type: userType
+                            };
+                            console.log(data)
+
+                            fetch("http://localhost:8080/register", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify(data)
+                            })
+                            .then(function(response) {
+                                if (!response.ok) {
+                                    throw new Error('La solicitud no se completó correctamente.');
+                                }
+                                return response.json();
+                            })
+                            .then(function(result) {
+                                document.getElementById("register").reset();
+
+                                Swal.fire({
+                                icon: 'success',
+                                title: 'Registro exitoso',
+                                });
+                            })
+                            .catch(function(error) {
+                                Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: error.message,
+                                });
+                            });
+                        });
+                        
+                    </script>
                     <script src="/public/script1.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
                      
                 </div>
             </div>

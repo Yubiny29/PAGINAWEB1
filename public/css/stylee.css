@@ -299,7 +299,9 @@ nav.close ~ .dashboard .top{
     margin-left: 10px;
 }
 .dash-content .overview .Titulo2 a{
+    position: relative;
     font-size: 30px;
+    top: -10px;
 }
 .dash-content .boxes{
     position: relative;
@@ -503,3 +505,4 @@ nav.close ~ .dashboard .top{
   #data-table td:nth-child(3) {
     color: #27ae60;
   }
+

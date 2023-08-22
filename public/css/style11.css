@@ -100,6 +100,138 @@ form .reserva-details .input-description{
     top:85px;
     right: 600px;
 }
+.reserva-details .input-caja input{
+    position: relative;
+    height: 30px;
+    width: 290px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    font-size: 14px;
+    border-bottom-width: 2px;
+    top:70px;
+    right: 120px;
+}
+.reserva-details .input-caja label{
+    position: relative;
+    right: 120px;
+    top: 70px;
+
+}
+.reserva-details .input-caja1 input{
+    position: relative;
+    height: 30px;
+    width: 290px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    font-size: 14px;
+    border-bottom-width: 2px;
+    top:70px;
+    right: 50px;
+}
+.reserva-details .input-caja1 label{
+    position: relative;
+    right: 50px;
+    top: 70px;
+
+}
+.reserva-details .input-caja2 input{
+    position: relative;
+    height: 30px;
+    width: 290px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    font-size: 14px;
+    border-bottom-width: 2px;
+    top:110px;
+    right: 5px;
+}
+.reserva-details .input-caja2 label{
+    position: relative;
+    right: 7px;
+    top: 110px;
+
+}
+.reserva-details .input-caja3 input{
+    position: relative;
+    height: 30px;
+    width: 290px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    font-size: 14px;
+    border-bottom-width: 2px;
+    top:110px;
+    right: 50px;
+}
+.reserva-details .input-caja3 label{
+    position: relative;
+    right: 50px;
+    top: 110px;
+}
+.reserva-details .input-caja4 input{
+    position: relative;
+    height: 30px;
+    width: 290px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    font-size: 14px;
+    border-bottom-width: 2px;
+    top:160px;
+    right: 20px;
+}
+.reserva-details .input-caja4 label{
+    position: relative;
+    right: 20px;
+    top: 160px;
+
+}
+.reserva-details .input-caja5 input{
+    position: relative;
+    height: 30px;
+    width: 290px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    font-size: 14px;
+    border-bottom-width: 2px;
+    top:160px;
+    right: 50px;
+}
+.reserva-details .input-caja5 label{
+    position: relative;
+    right: 50px;
+    top: 160px;
+
+}
+.reserva-details .input-caja6 input{
+    position: relative;
+    height: 30px;
+    width: 290px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 10px;
+    font-size: 14px;
+    border-bottom-width: 2px;
+    top:210px;
+    right: 50px;
+}
+.reserva-details .input-caja6 label{
+    position: relative;
+    right: 50px;
+    top: 210px;
+
+}
 .reserva-details .input-box3 label{
     position: relative;
     right: 543px;
@@ -108,7 +240,7 @@ form .reserva-details .input-description{
 }
 .reserva-details .input-box input{
     height: 30px;
-    width: 90%;
+    width: 100%;
     outline: none;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -146,6 +278,24 @@ form .button12 input{
     color: #265df2;
 }
 
+form .button22 input{
+    position: relative;
+    height: 60px;
+    width: 140px;
+    margin: 200px 0;
+    left: 220px;
+    color: #265df2;
+    top: 155px;
+}
+form .button23 input{
+    position: relative;
+    height: 60px;
+    width: 140px;
+    left: 430px;
+    color: #265df2;
+    top: -105px;
+}
+
 .container1{
     position: relative;
     max-width: 430px;
@@ -156,6 +306,7 @@ form .button12 input{
     overflow: hidden;
     margin: 0 20px;
     left: 300px;
+    top: 300;
 }
 
 .container1 .forms{
@@ -178,12 +329,22 @@ form .button12 input{
     margin-left: -50%;
     opacity: 0;
     transition: margin-left 0.18s ease, opacity 0.15s ease;
+    
 }
+.container1 .login{
+    height: 550px;
+    position: relative;
+    left: -7px;
+}
+
 
 .container1 .signup{
     opacity: 0;
     transition: opacity 0.09s ease;
+    height: 720px;
+    width: 420px;
 }
+
 .container1.active .signup{
     opacity: 1;
     transition: opacity 0.2s ease;
@@ -196,6 +357,7 @@ form .button12 input{
     position: relative;
     font-size: 27px;
     font-weight: 600;
+    top: 5px;
 }
 
 .form .title::before{
@@ -211,9 +373,9 @@ form .button12 input{
 
 .form .input-field{
     position: relative;
-    height: 50px;
+    height: 40px;
     width: 100%;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .input-field input{
@@ -233,6 +395,7 @@ form .button12 input{
     border-bottom-color: #4070f4;
 }
 
+
 .input-field i{
     position: absolute;
     top: 50%;
@@ -245,6 +408,7 @@ form .button12 input{
 .input-field input:is(:focus, :valid) ~ i{
     color: #4070f4;
 }
+.input-field .button
 
 .input-field i.icon{
     left: 0;
@@ -290,6 +454,7 @@ form .button12 input{
 }
 
 .form .button input{
+    position: relative;
     border: none;
     color: #fff;
     font-size: 17px;
@@ -299,6 +464,7 @@ form .button12 input{
     background-color: #4070f4;
     cursor: pointer;
     transition: all 0.3s ease;
+    left: 7px;
 }
 
 .button input:hover{
@@ -306,6 +472,8 @@ form .button12 input{
 }
 
 .form .login-signup{
-    margin-top: 30px;
+    margin-top: 20px;
     text-align: center;
 }
+
+

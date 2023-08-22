@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- Coding By CodingNepal - codingnepalweb.com -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,11 +27,11 @@
 
         <div class="menu-items">
             <ul class="nav-links">
-                <li><a href="#">
+                <li><a href="perfil.html">
                     <i class="uil uil-user"></i>
                     <span class="link-name">Perfil</span>
                 </a></li>
-                <li><a href="#">
+                <li><a href="appointments.html">
                     <i class="uil uil-file-medical-alt"></i>
                     <span class="link-name">Appointments</span>
                 </a></li>
@@ -173,6 +172,10 @@
             
             option1Select.addEventListener("change", function () {
                 const selectedOption = option1Select.value;
+                option2Select.innerHTML = '';
+                option3Select.innerHTML = '';
+                option2Select.innerHTML = '<option value="" disabled selected>Seleccione médico</option>';
+                option3Select.innerHTML = '<option value="" disabled selected>Seleccione hora</option>';
                 fetch('http://localhost:8080/get-data', {
                     method: "POST",
                     headers: {
@@ -210,6 +213,8 @@
                 opc2 = option2Select.value
                 fecha1 = fechaInput.value
                 console.log(JSON.stringify({ id:opc2, fecha:fecha1}))
+                option3Select.innerHTML = '';
+                option3Select.innerHTML = '<option value="" disabled selected>Seleccione una hora</option>';
                 if (fecha1 !== ""){
                     fetch('http://localhost:8080/horario', {
 
@@ -269,7 +274,19 @@
                 return response.json();
             })
             .then(function(result) {
-                console.log(result.status)
+                console.log(result)
+                document.getElementById("Reserva").reset();
+                document.getElementById("listMedicos").innerHTML = '';
+                document.getElementById("listMedicos").disabled;
+                document.getElementById("hora").innerHTML = '';
+                document.getElementById("hora").disabled;
+                document.getElementById('fecha1').innerHTML = '';
+                document.getElementById('fecha1').disabled;
+
+                Swal.fire({
+                icon: 'success',
+                title: 'Cita Reservada',
+                });
                 
             })
             .catch(function(error) {
@@ -280,11 +297,8 @@
 
 
 
-        
-
-
-
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 </body>

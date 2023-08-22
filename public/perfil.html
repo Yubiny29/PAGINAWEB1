@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="/public/css/stylee.css">
+    <link rel="stylesheet" href="/public/css/style11.css">
+
+     
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <title>Perfil Paciente</title>
+</head>
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+               <img src="images/logo.png" alt="">
+            </div>
+
+            <span class="logo_name" style="color: aliceblue;">Medic You</span>
+        </div>
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="perfil.html">
+                    <i class="uil uil-user"></i>
+                    <span class="link-name">Perfil</span>
+                </a></li>
+                <li><a href="appointments.html">
+                    <i class="uil uil-file-medical-alt"></i>
+                    <span class="link-name">Appointments</span>
+                </a></li>
+                <li><a href="dashboard.html">
+                    <i class="uil uil-folder-medical"></i>
+                    <span class="link-name">History</span> 
+                </a></li>
+                
+            </ul>
+            
+            <ul class="logout-mode">
+                <li><a href="index.html">
+                    <i class="uil uil-signout"></i>
+                    <span class="link-name">Logout</span>
+                </a></li>
+
+               
+
+                <div class="mode-toggle">
+                  
+                </div>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class="uil uil-bars sidebar-toggle"></i>
+ 
+            <!--<img src="images/profile.jpg" alt="">-->
+        </div>
+        <div class="dash-content">
+            <div class="overview">
+                <div class="boxes">
+                    <div class="container2">
+                        
+                        <form method="post" id="Perf">
+                            <div class="reserva-details">
+                                <div class="Titulo1">
+                                    <a>Perfil </a>
+                                </div>
+                                <div class="input-caja">
+                                    <label for="Fullname">Name:</label>
+                                    <input id="Fullname" type="text" disabled>
+                                </div>
+                                <div class="input-caja1">
+                                    <label for="Username">Username:</label>
+                                    <input id="Username" type="text" disabled>
+                                </div>
+                                <div class="input-caja2">
+                                    
+                                    <label for="DNI">DNI:</label>
+                                    <input id="DNI" type="text" disabled>
+                                </div>
+                                <div class="input-caja3">
+                                    <label for="Telefono">Telefono:</label>
+                                    <input id="Telefono" type="text" disabled>
+                                </div>
+                                <div class="input-caja4">
+                                    
+                                    <label for="Email">Email:</label>
+                                    <input id="Email" type="email", disabled>
+                                </div>
+                                <div class="input-caja5">
+                                    
+                                    <label for="Direccion">Password:</label>
+                                    <input id="Direccion" type="password" disabled>
+                                </div>
+            
+                                
+                            </div>
+                            <div class="button22">
+                                <input type="button" value="Editar" id="editar">
+                            </div>
+                            <div class="button23">
+                                <input type="button" value="Guardar" id="guardar" disabled>
+                            </div>
+                                
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+    <script>
+        const body = document.querySelector("body"),
+              sidebar = body.querySelector("nav");
+              sidebarToggle = body.querySelector(".sidebar-toggle");
+
+
+
+        sidebarToggle.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+            if(sidebar.classList.contains("close")){
+                localStorage.setItem("status", "close");
+            }else{
+                localStorage.setItem("status", "open");
+            }
+        })
+
+        
+        function loadUserData() {
+            const nombreUsuario = localStorage.getItem('nombreUsuario');
+
+            fetch('http://localhost:8080/usuario',{
+                method: "POST",
+                headers: {
+                        "Content-Type": "application/json",
+                    },
+                body: JSON.stringify({ paciente: nombreUsuario}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                document.getElementById("Fullname").value = data.fullname;
+                document.getElementById("Username").value = data.username;
+                document.getElementById("DNI").value = data.dni;
+                document.getElementById("Email").value = data.email;
+                document.getElementById("Telefono").value = data.telefono;
+                document.getElementById("Direccion").value = data.password;
+                    
+                    
+                })
+                .catch(error => {
+                    console.error("Error al cargar el usuario:", error);
+                });
+        }
+
+        loadUserData();
+
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            const botonEditar = document.getElementById("editar");
+            const botonGuardar = document.getElementById("guardar");
+            const fullname = document.getElementById("Fullname");
+            const username = document.getElementById("Username");
+            const dni =document.getElementById("DNI");
+            const correo = document.getElementById("Email");
+            const cel = document.getElementById("Telefono");
+            const direccion = document.getElementById("Direccion");
+            const nombreUsuario1 = localStorage.getItem('nombreUsuario');
+
+
+            botonEditar.addEventListener("click", function(event) {
+                fullname.disabled = false
+                username.disabled = false
+                dni.disabled = false
+                correo.disabled = false
+                cel.disabled = false
+                direccion.disabled = false
+                botonGuardar.disabled = false
+
+            });
+
+            botonGuardar.addEventListener("click", function(event) {
+                event.preventDefault(); 
+
+                const data = {
+                    fullname : fullname.value,
+                    dni: dni.value,
+                    email: correo.value,
+                    username: username.value,
+                    telefono: cel.value,
+                    password: direccion.value,
+                    user : nombreUsuario1,
+                };
+                console.log(data)
+
+                fetch("http://localhost:8080/Actualizar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error('La solicitud no se completó correctamente.');
+                    }
+                    return response.json();
+                })
+                .then(function(result) {
+                    botonGuardar.disabled=true
+                    fullname.disabled = true
+                    username.disabled = true
+                    dni.disabled = true
+                    correo.disabled = true
+                    cel.disabled = true
+                    direccion.disabled = true
+                    botonGuardar.disabled = true
+                    Swal.fire({
+                    icon: 'success',
+                    title: 'Perfil Editado',
+                    });
+                })
+                .catch(function(error) {
+                    Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.message,
+                    });
+                });
+           
+
+                 
+            });
+        });
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+</body>
+</html>

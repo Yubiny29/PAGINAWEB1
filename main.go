@@ -88,6 +88,8 @@ func main() {
 	r.HandleFunc("/login", loginHandler)
 	r.HandleFunc("/register", registerHandler)
 	r.HandleFunc("/table", VerCitas)
+	r.HandleFunc("/table1", VerCitas_doc)
+	r.HandleFunc("/table2", VerCitas_doc2)
 	r.HandleFunc("/list-options", handleListOptions)
 	r.HandleFunc("/get-data", getdata)
 	r.HandleFunc("/horario", horario)
@@ -95,6 +97,7 @@ func main() {
 	r.HandleFunc("/usuario", VerUsuario)
 	r.HandleFunc("/Eliminar", EliminarHandler)
 	r.HandleFunc("/Actualizar", ActualizarHandler)
+	r.HandleFunc("/Atender", AtenderHandler)
 	fmt.Println("server: http://localhost:8080")
 	http.ListenAndServe(":8080", r)
 }
@@ -192,7 +195,6 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 
 func VerCitas(w http.ResponseWriter, r *http.Request) {
 	con2 := DBconn()
-	// Retrieve data from the database
 	var data map[string]string
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
@@ -207,7 +209,7 @@ func VerCitas(w http.ResponseWriter, r *http.Request) {
 	var existingID int
 	err = row1.Scan(&existingID)
 
-	quer := "SELECT citas_creadas.Id,Descripcion, Especialidad,Nombre,Fecha,Hora,Estado from citas_creadas INNER JOIN medicos ON citas_creadas.id_medico = medicos.id where id_paciente = ?"
+	quer := "SELECT citas_creadas.Id,Descripcion, Especialidad,Nombre,Fecha,Hora,citas_creadas.Estado from citas_creadas INNER JOIN medicos ON citas_creadas.id_medico = medicos.id where id_paciente = ?"
 	rows, err := con2.Query(quer, existingID)
 	if err != nil {
 		http.Error(w, "Failed to retrieve data", http.StatusInternalServerError)
@@ -215,11 +217,8 @@ func VerCitas(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer rows.Close()
-
-	// Create a slice to store the retrieved data
 	var items []Citas
 
-	// Loop through the query results and populate the slice
 	for rows.Next() {
 		var item Citas
 		if err := rows.Scan(&item.Id, &item.Descripcion, &item.Especialidad, &item.Medico, &item.Fecha, &item.Hora, &item.Estado); err != nil {
@@ -345,7 +344,6 @@ func recibirFecha(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Puedes enviar una respuesta al cliente si es necesario
 	respuesta := map[string]string{"mensaje": "Fecha recibida correctamente"}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(respuesta)
@@ -396,7 +394,7 @@ func ReservarHandler(w http.ResponseWriter, r *http.Request) {
 	err = row1.Scan(&nombre1)
 	fmt.Println(existingID, nombre1, estado)
 
-	// Insert the new user into the database
+	// Insert the new date into the database
 	query = "INSERT INTO citas_creadas ( id_paciente, Descripcion, Especialidad, id_medico, Fecha, Hora, Estado) VALUES (?,?,?,?,?,?,?)"
 	_, err = conexi.Exec(query, existingID, des, nombre1, medico, fec, H, estado)
 	fmt.Println(err)
@@ -405,7 +403,7 @@ func ReservarHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Registration successful
+	// Reservation successful
 	response := map[string]interface{}{
 		"status": "cita reservada",
 	}
@@ -530,9 +528,9 @@ func ActualizarHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Registration successful
+	// perfil editado
 	response := map[string]interface{}{
-		"status": "Perfil rditado",
+		"status": "Perfil editado",
 	}
 	jsonResponse, err := json.Marshal(response)
 	if err != nil {
@@ -542,4 +540,135 @@ func ActualizarHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(jsonResponse)
+}
+
+func VerCitas_doc(w http.ResponseWriter, r *http.Request) {
+	con2 := DBconn()
+	// Retrieve data from the database
+	var data map[string]string
+	err := json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+	usuario := data["paciente"]
+	fmt.Println(usuario)
+	query := "SELECT id FROM medicos WHERE username = ?"
+	row1 := con2.QueryRow(query, usuario)
+
+	var existingID int
+	err = row1.Scan(&existingID)
+	fmt.Println(existingID)
+
+	quer := "select citas_creadas.Id,citas_creadas.Descripcion,users.full_name,citas_creadas.Fecha,citas_creadas.Hora,citas_creadas.Estado from citas_creadas INNER JOIN users on citas_creadas.id_paciente = users.id where id_medico=?"
+	rows, err := con2.Query(quer, existingID)
+	if err != nil {
+		http.Error(w, "Failed to retrieve data", http.StatusInternalServerError)
+		return
+	}
+
+	defer rows.Close()
+
+	var items []Citas
+
+	for rows.Next() {
+		var item Citas
+		if err := rows.Scan(&item.Id, &item.Descripcion, &item.Especialidad, &item.Fecha, &item.Hora, &item.Estado); err != nil {
+			http.Error(w, "Failed to scan data", http.StatusInternalServerError)
+			return
+		}
+		items = append(items, item)
+	}
+	fmt.Println(items)
+
+	jsonData, err := json.Marshal(items)
+	if err != nil {
+		http.Error(w, "Failed to marshal data", http.StatusInternalServerError)
+		return
+	}
+
+	// Set the appropriate content type and send the+ JSON data to the frontend
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonData)
+}
+func AtenderHandler(w http.ResponseWriter, r *http.Request) {
+	conexi := DBconn()
+	var cit map[string]string
+	err := json.NewDecoder(r.Body).Decode(&cit)
+	if err != nil {
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+	id := cit["Id"]
+
+	fmt.Println(id)
+
+	quer := "UPDATE citas_creadas SET  Estado = 'Atendido'  where Id = ?"
+	_, err = conexi.Exec(quer, id)
+	fmt.Println(err)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	// Registration successful
+	response := map[string]interface{}{
+		"status": "cita atendida",
+	}
+	jsonResponse, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonResponse)
+}
+func VerCitas_doc2(w http.ResponseWriter, r *http.Request) {
+	con2 := DBconn()
+	// Retrieve data from the database
+	var data map[string]string
+	err := json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		http.Error(w, "Bad Request", http.StatusBadRequest)
+		return
+	}
+	usuario := data["paciente"]
+	fmt.Println(usuario)
+	query := "SELECT id FROM medicos WHERE username = ?"
+	row1 := con2.QueryRow(query, usuario)
+
+	var existingID int
+	err = row1.Scan(&existingID)
+	fmt.Println(existingID)
+
+	quer := "select citas_creadas.Id,citas_creadas.Descripcion,users.full_name,citas_creadas.Fecha,citas_creadas.Hora,citas_creadas.Estado from citas_creadas INNER JOIN users on citas_creadas.id_paciente = users.id where id_medico=? and citas_creadas.Estado='Pendiente' "
+	rows, err := con2.Query(quer, existingID)
+	if err != nil {
+		http.Error(w, "Failed to retrieve data", http.StatusInternalServerError)
+		return
+	}
+
+	defer rows.Close()
+
+	var items []Citas
+
+	for rows.Next() {
+		var item Citas
+		if err := rows.Scan(&item.Id, &item.Descripcion, &item.Especialidad, &item.Fecha, &item.Hora, &item.Estado); err != nil {
+			http.Error(w, "Failed to scan data", http.StatusInternalServerError)
+			return
+		}
+		items = append(items, item)
+	}
+	fmt.Println(items)
+
+	jsonData, err := json.Marshal(items)
+	if err != nil {
+		http.Error(w, "Failed to marshal data", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonData)
 }

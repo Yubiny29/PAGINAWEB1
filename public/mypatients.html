@@ -13,7 +13,7 @@
     <!----===== Iconscout CSS ===== -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
-    <title>Paciente</title>
+    <title>Doctor</title>
 </head>
 <body>
     <nav>
@@ -27,15 +27,15 @@
 
         <div class="menu-items">
             <ul class="nav-links">
-                <li><a href="perfil.html">
+                <li><a href="perfil_medico.html">
                     <i class="uil uil-user"></i>
                     <span class="link-name">Perfil</span>
                 </a></li>
-                <li><a href="appointments.html">
+                <li><a href="my_appointments.html">
                     <i class="uil uil-file-medical-alt"></i>
                     <span class="link-name">Appointments</span>
                 </a></li>
-                <li><a href="dashboard.html">
+                <li><a href="mypatients.html">
                     <i class="uil uil-folder-medical"></i>
                     <span class="link-name">History</span>
                 </a></li>
@@ -70,7 +70,7 @@
         <div class="dash-content">
             <div class="overview">
                 <div class="Titulo2">
-                    <a style="font-size: 30px;">Mis Citas</a>
+                    <a style="font-size: 30px;">Historial Citas</a>
                 </div>
                 <div class="boxes">
                     <table class="table" id="data-table">
@@ -78,13 +78,10 @@
                           <tr>
                             <th>Id</th>
                             <th>DESCRIPCION</th>
-                            <th>ESPECIALIDAD</th>
-                            <th>MEDICO</th>
+                            <th>Paciente</th>
                             <th>FECHA</th>
                             <th>HORA</th>
                             <th>ESTADO</th>
-                            <th>Opciones</th>
-
                           </tr>
                         </thead>
                         <tbody>
@@ -102,8 +99,9 @@
         
         function fetchTableData() {
             const nombreUsuario = localStorage.getItem('nombreUsuario');
+            console.log(nombreUsuario)
 
-            fetch('http://localhost:8080/table',{
+            fetch('http://localhost:8080/table1',{
                 method: "POST",
                 headers: {
                         "Content-Type": "application/json",
@@ -124,12 +122,11 @@
                         row.insertCell().textContent = item.Id;
                         row.insertCell().textContent = item.Descripcion;
                         row.insertCell().textContent = item.Especialidad;
-                        row.insertCell().textContent = item.Medico;
                         row.insertCell().textContent = item.Fecha;
                         row.insertCell().textContent = item.Hora;
                         row.insertCell().textContent = item.Estado;
                         
-                        const cellEliminar = row.insertCell();
+                        /*const cellEliminar = row.insertCell();
                         const botonEliminar = document.createElement("button");
                         botonEliminar.classList.add("uil", "uil-trash-alt")
 
@@ -143,6 +140,22 @@
 
 
                         cellEliminar.appendChild(botonEliminar);
+
+                        const cellatender = row.insertCell();
+                        const botonatender = document.createElement("button");
+                        botonatender.classList.add("uil","uil-stethoscope")
+
+                        botonatender.style.display = "flex";
+                        botonatender.style.position ="relative"
+                        botonatender.style.left= "30px"
+                        botonatender.style.justifyContent = "center";
+                        botonatender.style.alignItems = "center";
+                        botonatender.style.fontSize = "1.5rem";
+                        botonatender.style.color = "blue";
+
+                        cellatender.appendChild(botonatender);*/
+
+
 
                     });
                     
@@ -209,8 +222,44 @@
                     .catch(function(error) {
                         console.error("Error:", error);
                     });
-
+                }else if (event.target.classList.contains('uil-stethoscope')) {
+                    const row = event.target.closest('tr');
+                    const rowData = Array.from(row.cells).map(cell => cell.textContent);
+                    console.log('Datos de la fila:', rowData);
+                    const data = {
+                        Id: rowData[0],
+                        Fecha: rowData[4],
+                        Hora: rowData[5],
+                        
+                    };
+                    fetch("http://localhost:8080/Atender", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data),
+                    })
+                    .then(function(response) {
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        return response.json();
+                    })
+                    .then(function(result) {
+                        console.log(result)
+                        document.querySelector('#data-table tbody').innerHTML=''
+                        fetchTableData();
+                        Swal.fire({
+                        icon: 'success',
+                        title: 'Cita Atendida',
+                        });
+                        
+                    })
+                    .catch(function(error) {
+                        console.error("Error:", error);
+                    });
                 }
+
             });
         });
 
